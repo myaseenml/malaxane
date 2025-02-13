@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Plate Removal & Background Changer</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: purple;
+        }
+
+        .description {
+            font-size: 16px;
+            color: darkgray;
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            font-size: 18px;
+            padding: 10px;
+        }
+
+        .preview-img {
+            max-width: 120px;
+            height: auto;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            padding: 5px;
+        }
+
+        .file-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .preview-container img {
+            max-width: 120px;
+            height: auto;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            padding: 5px;
+        }
+    </style>
+
+
+
+    <!-- footer style -->
+    <style>
+        .footer {
+            background-color: #ffffff;
+            padding: 40px 0;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .footer h5 {
+            font-weight: bold;
+            color: #0d3b66;
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: #0d3b66;
+            display: block;
+            margin: 5px 0;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .new-label {
+            color: red;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 14px;
+            color: #6c757d;
+            background-color: #e9ecef;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <!-- Navbar Start -->
+    <nav
+        style="display: flex; justify-content: space-between; align-items: center; padding: 24px 24px; background-color: white; border-bottom: 1px solid #ddd;">
+        <!-- Logo -->
+        <div style="display: flex; align-items: center;">
+            <img src="{{ url_for('static', filename='logo.svg') }}" alt="AutoFox Logo" style="height: 42px;">
+        </div>
+
+        <!-- Navigation Links -->
+        <div style="display: flex; gap: 20px;" class="header-nav-link w-nav-link">
+            <a href="#" style="text-decoration: none; color: #003f5c; font-size: 16px; font-weight: bold;">Products</a>
+            <a href="#" style="text-decoration: none; color: #003f5c; font-size: 16px; font-weight: bold;">Virtual
+                Showrooms</a>
+            <a href="#"
+                style="text-decoration: none; color: #003f5c; font-size: 16px; font-weight: bold;">References</a>
+        </div>
+
+        <!-- Button -->
+        <div>
+            <a href="#"
+                style="text-decoration: none; background-color: #e63946; color: white; padding: 10px 15px; border-radius: 5px; font-size: 16px;">Request
+                a demo</a>
+        </div>
+    </nav>
+
+    <!-- Navbar End -->
+
+
+
+
+    <!-- Main Body Start -->
+    <div class="container text-center">
+        <h2 class="header-title">Auto Studio</h2>
+        <p class="description">Easily remove car plates and replace backgrounds using AI-powered image processing.</p>
+
+        <form id="uploadForm" enctype="multipart/form-data">
+            <div class="mb-3 text-start">
+                <label class="form-label file-label">Upload Car Images (Multiple Allowed)</label>
+                <input type="file" class="form-control" id="carImages" accept="image/*" multiple required>
+                <div class="preview-container" id="carPreview"></div>
+            </div>
+            <div class="mb-3 text-start">
+                <label class="form-label file-label">Upload Background Image</label>
+                <input type="file" class="form-control" id="bgImage" accept="image/*" required>
+                <img id="bgPreview" class="preview-img d-none" src="" alt="Background Preview">
+            </div>
+            <button type="submit" class="btn btn-primary" style="background-color: rgb(118, 78, 155);">Process
+                Images</button>
+        </form>
+
+        <div id="result" class="mt-4 d-none">
+            <h4>Processed Images</h4>
+            <div id="outputContainer" class="preview-container"></div>
+        </div>
+    </div>
+
+    <!-- Main Body End -->
+
+    <!-- Full-Width Footer Start -->
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row text-center text-md-start">
+                <!-- Products Section -->
+                <div class="col-md-3 col-6">
+                    <h5>Products</h5>
+                    <a href="#">Photo App</a>
+                    <a href="#">License Plate Inlays</a>
+                    <a href="#">Ad Manager</a>
+                </div>
+
+                <!-- Solutions Section -->
+                <div class="col-md-3 col-6">
+                    <h5>Solutions</h5>
+                    <a href="#">For Car Dealers</a>
+                    <a href="#">For Dealer Groups</a>
+                    <a href="#">For Platforms</a>
+                </div>
+
+                <!-- Company Section -->
+                <div class="col-md-3 col-6">
+                    <h5>Company</h5>
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Careers</a>
+                </div>
+
+                <!-- Pages Section -->
+                <div class="col-md-3 col-6">
+                    <h5>Pages</h5>
+                    <a href="#">Virtual Showrooms</a>
+                    <a href="#">Demo</a>
+                    <a href="#">References</a>
+                    <a href="#">Blog <span class="new-label">NEW</span></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Copyright Section -->
+    <div class="copyright">
+        Copyright © 2025 AutoStudio
+    </div>
+
+    <!-- Full-Width Footer End -->
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            // Preview selected car images
+            $('#carImages').on('change', function () {
+                $('#carPreview').empty();
+                let files = this.files;
+                if (files.length > 0) {
+                    $.each(files, function (index, file) {
+                        let reader = new FileReader();
+                        reader.onload = function (e) {
+                            $('#carPreview').append('<img src="' + e.target.result +
+                                '" alt="Car Preview">');
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                }
+            });
+
+            // Preview selected background image
+            $('#bgImage').on('change', function () {
+                let file = this.files[0];
+                if (file) {
+                    let reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#bgPreview').attr('src', e.target.result).removeClass('d-none');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Form submission and image processing
+            $('#uploadForm').on('submit', function (e) {
+                e.preventDefault();
+                let formData = new FormData();
+                let carFiles = $('#carImages')[0].files;
+                let bgFile = $('#bgImage')[0].files[0];
+
+                if (carFiles.length === 0 || !bgFile) {
+                    alert("Please select at least one car image and a background image.");
+                    return;
+                }
+
+                $.each(carFiles, function (index, file) {
+                    formData.append('carImages', file);
+                });
+                formData.append('bgImage', bgFile);
+
+                $.ajax({
+                    url: '/process',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    beforeSend: function () {
+                        $('.btn-primary').text('Processing...').prop('disabled', true);
+                    },
+                    success: function (response) {
+                        $('#outputContainer').empty();
+                        if (response.processed_images.length > 0) {
+                            $.each(response.processed_images, function (index, img) {
+                                $('#outputContainer').append('<img src="' + img
+                                    .image + '" alt="Processed Image">');
+                            });
+                            $('#result').removeClass('d-none');
+                        } else {
+                            alert("No images were processed.");
+                        }
+                    },
+                    error: function () {
+                        alert('Error processing images. Please try again.');
+                    },
+                    complete: function () {
+                        $('.btn-primary').text('Process Images').prop('disabled', false);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

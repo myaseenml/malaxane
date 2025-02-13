@@ -1,0 +1,6 @@
+numpy
+imutils
+opencv-python
+Pillow
+carvekit
+flask
